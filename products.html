@@ -18,47 +18,10 @@
 
     <main>
         <h1>منتجاتنا</h1>
-        <div id="productsContainer" class="products-grid">
-            <!-- سيتم ملؤها بالمنتجات من JavaScript -->
+        <div class="products-grid" id="productsContainer">
+            <!-- سيتم تعبئتها بالجافاسكريبت -->
         </div>
     </main>
-
-    <div id="paymentModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="hidePaymentModal()">&times;</span>
-            <h2>إتمام الطلب</h2>
-            <div id="productDetails"></div>
-            <h3>اختر طريقة الدفع:</h3>
-            <div class="payment-methods">
-                <button onclick="selectPayment('apple')">
-                    <img src="images/apple-pay.png" alt="Apple Pay">
-                </button>
-                <button onclick="selectPayment('paypal')">
-                    <img src="images/paypal.png" alt="PayPal">
-                </button>
-                <button onclick="selectPayment('rajhi')">
-                    <img src="images/rajhi-bank.png" alt="بنك الراجحي">
-                </button>
-            </div>
-            <div id="paymentDetails" style="display:none;">
-                <h3>معلومات الدفع:</h3>
-                <div id="applePayInfo" class="payment-info">
-                    <p>الدفع عبر Apple Pay:</p>
-                    <p>ارسل المبلغ إلى: applepay@technobox.com</p>
-                </div>
-                <div id="paypalInfo" class="payment-info">
-                    <p>الدفع عبر PayPal:</p>
-                    <p>ارسل المبلغ إلى: paypal@technobox.com</p>
-                </div>
-                <div id="rajhiInfo" class="payment-info">
-                    <p>الدفع عبر بنك الراجحي:</p>
-                    <p>رقم الحساب: SA0380000001234567890</p>
-                    <p>اسم المستفيد: TechnoBox</p>
-                </div>
-                <button class="btn" onclick="completePayment()">تأكيد الدفع</button>
-            </div>
-        </div>
-    </div>
 
     <footer>
         <p>جميع الحقوق محفوظة &copy; 2023 TechnoBox</p>
