@@ -49,29 +49,95 @@ function displayAdminProducts() {
         const productCard = document.createElement('div');
         productCard.className = 'product-card';
         
-        let outOfStockBadge = '';
-        if (product.isOutOfStock) {
-            outOfStockBadge = '<div class="out-of-stock">نفذت الكمية</div>';
+        let stockStatus = '';
+        if (product.isOutOfStock || product.quantity <= 0) {
+            stockStatus = `
+                <div class="stock-status">
+                    <span class="out-of-stock-badge">نفذت الكمية</span>
+                    <button class="btn btn-restock" onclick="restockProduct(${index})">إعادة التخزين</button>
+                </div>
+            `;
+        } else {
+            stockStatus = `
+                <div class="stock-status">
+                    <span class="in-stock-badge">متوفر (${product.quantity})</span>
+                </div>
+            `;
         }
         
         productCard.innerHTML = `
-            ${outOfStockBadge}
+            ${stockStatus}
             <img src="${product.image}" alt="${product.name}">
             <h3>${product.name}</h3>
             <p>${product.description}</p>
             <p><strong>السعر: ${product.price} ر.س</strong></p>
-            <p>الكمية: ${product.quantity}</p>
+            <div class="quantity-controls">
+                <button class="btn btn-quantity" onclick="decreaseQuantity(${index})">-</button>
+                <input type="number" value="${product.quantity}" min="0" id="quantity-${index}" 
+                       onchange="updateQuantity(${index}, this.value)">
+                <button class="btn btn-quantity" onclick="increaseQuantity(${index})">+</button>
+            </div>
             <div class="product-actions">
                 <button class="btn" onclick="editProduct(${index})">تعديل</button>
                 <button class="btn btn-danger" onclick="showDeleteConfirm(${index})">حذف</button>
-                ${product.isOutOfStock ? 
-                    '<button class="btn btn-success" onclick="restoreStock(${index})">إعادة التوفير</button>' : 
-                    '<button class="btn btn-warning" onclick="showOutOfStockConfirm(${index})">نفاذ الكمية</button>'
-                }
+                <button class="btn btn-warning" onclick="toggleOutOfStock(${index})">
+                    ${product.isOutOfStock ? 'إعادة التوفير' : 'نفاذ الكمية'}
+                </button>
             </div>
         `;
         container.appendChild(productCard);
     });
+}
+
+// زيادة الكمية
+function increaseQuantity(index) {
+    products[index].quantity++;
+    products[index].isOutOfStock = false;
+    localStorage.setItem('products', JSON.stringify(products));
+    displayAdminProducts();
+}
+
+// تقليل الكمية
+function decreaseQuantity(index) {
+    if (products[index].quantity > 0) {
+        products[index].quantity--;
+        if (products[index].quantity === 0) {
+            products[index].isOutOfStock = true;
+        }
+        localStorage.setItem('products', JSON.stringify(products));
+        displayAdminProducts();
+    }
+}
+
+// تحديث الكمية يدوياً
+function updateQuantity(index, value) {
+    const newQuantity = parseInt(value) || 0;
+    products[index].quantity = newQuantity;
+    products[index].isOutOfStock = (newQuantity <= 0);
+    localStorage.setItem('products', JSON.stringify(products));
+    displayAdminProducts();
+}
+
+// إعادة تخزين المنتج
+function restockProduct(index) {
+    products[index].isOutOfStock = false;
+    if (products[index].quantity <= 0) {
+        products[index].quantity = 1;
+    }
+    localStorage.setItem('products', JSON.stringify(products));
+    displayAdminProducts();
+}
+
+// تبديل حالة نفاذ الكمية
+function toggleOutOfStock(index) {
+    products[index].isOutOfStock = !products[index].isOutOfStock;
+    if (products[index].isOutOfStock) {
+        products[index].quantity = 0;
+    } else {
+        products[index].quantity = products[index].quantity || 1;
+    }
+    localStorage.setItem('products', JSON.stringify(products));
+    displayAdminProducts();
 }
 
 // عرض تأكيد الحذف
@@ -94,35 +160,6 @@ function confirmDelete() {
         displayAdminProducts();
         cancelDelete();
     }
-}
-
-// عرض تأكيد نفاذ الكمية
-function showOutOfStockConfirm(productIndex) {
-    outOfStockProductId = productIndex;
-    document.getElementById('confirmOutOfStockModal').style.display = 'block';
-}
-
-// إلغاء نفاذ الكمية
-function cancelOutOfStock() {
-    outOfStockProductId = null;
-    document.getElementById('confirmOutOfStockModal').style.display = 'none';
-}
-
-// تأكيد نفاذ الكمية
-function confirmOutOfStock() {
-    if (outOfStockProductId !== null) {
-        products[outOfStockProductId].isOutOfStock = true;
-        localStorage.setItem('products', JSON.stringify(products));
-        displayAdminProducts();
-        cancelOutOfStock();
-    }
-}
-
-// إعادة توفير المنتج
-function restoreStock(productIndex) {
-    products[productIndex].isOutOfStock = false;
-    localStorage.setItem('products', JSON.stringify(products));
-    displayAdminProducts();
 }
 
 // تحرير المنتج
@@ -186,6 +223,7 @@ function saveProduct(e) {
         products[currentProductId].price = price;
         products[currentProductId].quantity = quantity;
         products[currentProductId].paymentMethods = paymentMethods;
+        products[currentProductId].isOutOfStock = (quantity <= 0);
         
         if (imageFile) {
             const reader = new FileReader();
@@ -218,7 +256,7 @@ function saveProduct(e) {
                 quantity,
                 image: e.target.result,
                 paymentMethods,
-                isOutOfStock: false
+                isOutOfStock: (quantity <= 0)
             };
             
             products.push(newProduct);
