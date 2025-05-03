@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تعديل المنتج - TechnoBox</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">TechnoBox</div>
+        <nav>
+            <a href="index.html">الرئيسية</a>
+            <a href="products.html">المنتجات</a>
+            <a href="admin.html" class="admin-btn">لوحة التحكم</a>
+            <a href="javascript:void(0)" onclick="logout()" class="logout-btn">تسجيل الخروج</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1 id="formTitle">إضافة منتج جديد</h1>
+        <form id="productForm">
+            <input type="hidden" id="productId">
+            
+            <div class="form-group">
+                <label for="productName">اسم المنتج:</label>
+                <input type="text" id="productName" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="productDescription">وصف المنتج:</label>
+                <textarea id="productDescription" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="productImage">صورة المنتج:</label>
+                <input type="file" id="productImage" accept="image/*">
+                <img id="productImagePreview" src="" alt="صورة المنتج" style="max-width: 200px; display: none;">
+            </div>
+            
+            <div class="form-group">
+                <label for="productPrice">السعر (ر.س):</label>
+                <input type="number" id="productPrice" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="productQuantity">الكمية المتاحة:</label>
+                <input type="number" id="productQuantity" required>
+            </div>
+            
+            <div class="form-group">
+                <label>طرق الدفع المتاحة:</label>
+                <div class="payment-options">
+                    <label>
+                        <input type="checkbox" name="payment" value="apple" checked> Apple Pay
+                    </label>
+                    <label>
+                        <input type="checkbox" name="payment" value="paypal" checked> PayPal
+                    </label>
+                    <label>
+                        <input type="checkbox" name="payment" value="rajhi" checked> بنك الراجحي
+                    </label>
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn">حفظ المنتج</button>
+                <a href="admin.html" class="btn btn-secondary">العودة إلى لوحة التحكم</a>
+            </div>
+        </form>
+    </main>
+
+    <footer>
+        <p>جميع الحقوق محفوظة &copy; 2023 TechnoBox</p>
+    </footer>
+
+    <script src="admin.js"></script>
+</body>
+</html>
