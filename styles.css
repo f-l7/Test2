@@ -1,162 +1,86 @@
 /* الألوان الأساسية */
 :root {
-    --primary-color: #1a237e;
-    --secondary-color: #303f9f;
-    --light-blue: #e8eaf6;
-    --dark-blue: #0d0f36;
-    --danger-color: #d32f2f;
-    --warning-color: #ffa000;
-    --success-color: #388e3c;
+    --primary-color: #0d1b2a; /* أزرق غامق جداً */
+    --secondary-color: #1b263b; /* أزرق غامق */
+    --accent-color: #415a77; /* أزرق متوسط */
+    --light-blue: #e0e1dd; /* أزرق فاتح جداً */
+    --text-color: #ffffff; /* نص أبيض */
+    --danger-color: #d32f2f; /* أحمر للتحذيرات */
+    --warning-color: #ffa000; /* أصفر للتنبيهات */
+    --success-color: #388e3c; /* أخضر للنجاح */
 }
 
 /* التنسيق العام */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Tajawal', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: var(--light-blue);
-    color: #333;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
+/* الهيدر */
 header {
-    background-color: var(--primary-color);
+    background-color: var(--secondary-color);
     color: white;
-    padding: 1rem;
+    padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .logo {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: bold;
+    color: var(--light-blue);
+}
+
+nav {
+    display: flex;
+    gap: 1rem;
 }
 
 nav a {
     color: white;
     text-decoration: none;
-    margin-right: 1rem;
-    padding: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
 }
 
 nav a:hover {
-    background-color: var(--secondary-color);
-    border-radius: 4px;
+    background-color: var(--accent-color);
+    transform: translateY(-2px);
 }
 
-.admin-btn {
-    background-color: var(--dark-blue);
-    border-radius: 4px;
-    padding: 0.5rem 1rem !important;
-}
-
-.logout-btn {
-    background-color: var(--danger-color);
-    border-radius: 4px;
-    padding: 0.5rem 1rem !important;
-}
-
-/* صفحة تسجيل الدخول */
-.login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: var(--primary-color);
-}
-
-.login-box {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 400px;
-}
-
-.login-box h1 {
-    color: var(--primary-color);
-    text-align: center;
-    margin-bottom: 1.5rem;
-}
-
-.form-group {
-    margin-bottom: 1rem;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: var(--primary-color);
-}
-
-.form-group input {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-.error-message {
-    color: var(--danger-color);
-    margin-top: 1rem;
-    text-align: center;
-}
-
-/* المنتجات */
-.products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1rem;
-    padding: 1rem;
-}
-
-.product-card {
-    background: white;
-    border-radius: 8px;
-    padding: 1rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    position: relative;
-}
-
-.product-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 4px;
-}
-
-.product-card .out-of-stock {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background-color: var(--danger-color);
-    color: white;
-    padding: 0.3rem 0.6rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
-}
-
-.product-actions {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 1rem;
-}
-
+/* الأزرار */
 .btn {
-    background-color: var(--secondary-color);
+    background-color: var(--accent-color);
     color: white;
     border: none;
-    padding: 0.5rem 1rem;
+    padding: 0.7rem 1.5rem;
     border-radius: 4px;
     cursor: pointer;
     text-decoration: none;
     display: inline-block;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.btn:hover {
+    background-color: #4a6fa5;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .btn-secondary {
-    background-color: #757575;
+    background-color: #5c677d;
 }
 
 .btn-danger {
@@ -171,106 +95,252 @@ nav a:hover {
     background-color: var(--success-color);
 }
 
-/* النماذج */
+/* المحتوى الرئيسي */
+main {
+    flex: 1;
+    padding: 2rem;
+    background-color: var(--primary-color);
+}
+
+.hero {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: linear-gradient(rgba(13, 27, 42, 0.8), rgba(13, 27, 42, 0.9)), 
+                url('images/tech-bg.jpg') center/cover no-repeat;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: 0 auto 2rem;
+}
+
+/* المنتجات */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem 0;
+}
+
+.product-card {
+    background: var(--secondary-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+.product-card h3 {
+    margin: 0.5rem 0;
+    font-size: 1.3rem;
+}
+
+.product-card p {
+    margin: 0.3rem 0;
+}
+
+/* حالة نفاذ الكمية */
+.out-of-stock-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: var(--danger-color);
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.out-of-stock-card {
+    opacity: 0.8;
+}
+
+.out-of-stock-card .btn {
+    background-color: #9e9e9e;
+    cursor: not-allowed;
+}
+
+/* التحكم في الكمية */
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.btn-quantity {
+    padding: 0.3rem 0.6rem !important;
+    min-width: 35px;
+    font-size: 1rem;
+}
+
+/* صفحة تسجيل الدخول */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 2rem;
+}
+
+.login-box {
+    background-color: var(--secondary-color);
+    padding: 2.5rem;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 450px;
+}
+
+.login-box h1 {
+    color: var(--light-blue);
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--light-blue);
+    font-size: 1rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--accent-color);
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1rem;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--light-blue);
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.error-message {
+    color: var(--danger-color);
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+/* الفوتر */
+footer {
+    background-color: var(--secondary-color);
+    color: white;
+    text-align: center;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    font-size: 0.9rem;
+}
+
+/* النماذج والموادال */
 .modal {
     display: none;
     position: fixed;
-    z-index: 1;
+    z-index: 1000;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(3px);
 }
 
 .modal-content {
-    background-color: var(--light-blue);
+    background-color: var(--secondary-color);
     margin: 10% auto;
     padding: 2rem;
     border-radius: 8px;
-    width: 80%;
+    width: 90%;
     max-width: 500px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    position: relative;
 }
 
 .close {
+    position: absolute;
+    top: 15px;
+    left: 15px;
     color: #aaa;
-    float: left;
     font-size: 28px;
     font-weight: bold;
     cursor: pointer;
+}
+
+.close:hover {
+    color: white;
 }
 
 .modal-actions {
     display: flex;
     justify-content: flex-end;
     gap: 1rem;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
 }
 
-/* طرق الدفع */
-.payment-methods {
-    display: flex;
-    justify-content: space-around;
-    margin: 1rem 0;
-}
-
-.payment-methods button {
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-.payment-methods img {
-    width: 80px;
-    height: 50px;
-    object-fit: contain;
-}
-
-.payment-info {
-    background: white;
-    padding: 1rem;
-    border-radius: 4px;
-    margin: 1rem 0;
-}
-
-/* لوحة التحكم */
-.admin-actions {
-    margin-bottom: 2rem;
-}
-
-/* نموذج المنتج */
-.form-group {
-    margin-bottom: 1rem;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: bold;
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-.form-group textarea {
-    min-height: 100px;
-}
-
-.form-actions {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
-.payment-options {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
+/* التكيف مع الشاشات الصغيرة */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        padding: 1rem;
+    }
+    
+    .logo {
+        margin-bottom: 1rem;
+    }
+    
+    nav {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .hero {
+        padding: 2rem 1rem;
+    }
+    
+    .hero h1 {
+        font-size: 2rem;
+    }
+    
+    .products-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .login-box {
+        padding: 1.5rem;
+    }
 }
