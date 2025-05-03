@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - TechnoBox</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">TechnoBox</div>
+        <nav>
+            <a href="index.html">الرئيسية</a>
+            <a href="products.html">المنتجات</a>
+            <a href="javascript:void(0)" onclick="logout()" class="logout-btn">تسجيل الخروج</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>لوحة تحكم المسؤول</h1>
+        
+        <div class="admin-actions">
+            <a href="edit-product.html?action=add" class="btn">إضافة منتج جديد</a>
+        </div>
+        
+        <h2>إدارة المنتجات</h2>
+        <div id="adminProductsContainer" class="products-grid">
+            <!-- سيتم ملؤها بالمنتجات من JavaScript -->
+        </div>
+    </main>
+
+    <div id="confirmDeleteModal" class="modal">
+        <div class="modal-content">
+            <h2>تأكيد الحذف</h2>
+            <p>هل أنت متأكد أنك تريد حذف هذا المنتج؟</p>
+            <div class="modal-actions">
+                <button onclick="confirmDelete()" class="btn btn-danger">نعم، احذف</button>
+                <button onclick="cancelDelete()" class="btn">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="confirmOutOfStockModal" class="modal">
+        <div class="modal-content">
+            <h2>تأكيد نفاذ الكمية</h2>
+            <p>هل أنت متأكد أنك تريد وضع هذا المنتج كـ "نفاذ الكمية"؟</p>
+            <div class="modal-actions">
+                <button onclick="confirmOutOfStock()" class="btn btn-warning">نعم، نفذت الكمية</button>
+                <button onclick="cancelOutOfStock()" class="btn">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>جميع الحقوق محفوظة &copy; 2023 TechnoBox</p>
+    </footer>
+
+    <script src="admin.js"></script>
+</body>
+</html>
