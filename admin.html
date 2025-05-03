@@ -17,33 +17,20 @@
     </header>
 
     <main>
-        <h1>لوحة تحكم المسؤول</h1>
-        
+        <h1>مرحباً، AdminTechno</h1>
         <div class="admin-actions">
-            <a href="edit-product.html?action=add" class="btn">إضافة منتج جديد</a>
-        </div>
-        
-        <h2>إدارة المنتجات</h2>
-        <div id="adminProductsContainer" class="products-grid">
-            <!-- سيتم ملؤها بالمنتجات من JavaScript -->
+            <a href="edit-product.html" class="btn">إدارة المنتجات</a>
         </div>
     </main>
 
-    <div id="confirmDeleteModal" class="modal">
-        <div class="modal-content">
-            <h2>تأكيد الحذف</h2>
-            <p>هل أنت متأكد أنك تريد حذف هذا المنتج؟</p>
-            <div class="modal-actions">
-                <button onclick="confirmDelete()" class="btn btn-danger">نعم، احذف</button>
-                <button onclick="cancelDelete()" class="btn">إلغاء</button>
-            </div>
-        </div>
-    </div>
-
     <footer>
-        <p>جميع الحقوق محفوظة &copy; 2023 TechnoBox</p>
+        <p>جميع الحقوق محفوظة &copy; <span id="year"></span> TechnoBox</p>
     </footer>
 
-    <script src="admin.js"></script>
+    <script>
+        // عرض السنة الحالية في الفوتر
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+    <script src="script.js"></script>
 </body>
 </html>
