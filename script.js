@@ -1,41 +1,107 @@
-// بيانات الدخول (يمكنك تعديلها مباشرة هنا)
+// بيانات المنتجات (سيتم تخزينها في localStorage)
+let products = JSON.parse(localStorage.getItem('products')) || [];
+
+// بيانات تسجيل الدخول (يمكن تغييرها في الكود)
 const adminCredentials = {
-    username: "AdminTechno",  // غير هذا الاسم كما تريد
-    password: "Techno@2024"   // غير هذه الكلمة كما تريد
+    username: "admin",
+    password: "123456"
 };
 
-// نظام تسجيل الدخول
+// التحقق من تسجيل الدخول عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', function() {
-    // تسجيل الدخول
-    const loginForm = document.getElementById('loginForm');
-    if (loginForm) {
-        loginForm.addEventListener('submit', function(e) {
+    // إذا كان في صفحة تسجيل الدخول
+    if (window.location.pathname.includes('login.html')) {
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-
+            
             if (username === adminCredentials.username && password === adminCredentials.password) {
                 localStorage.setItem('isAdminLoggedIn', 'true');
                 window.location.href = 'admin.html';
             } else {
-                const errorElement = document.getElementById('loginError');
-                errorElement.textContent = 'خطأ: اسم المستخدم أو كلمة المرور غير صحيحة';
-                errorElement.style.display = 'block';
+                document.getElementById('loginError').textContent = 'اسم المستخدم أو كلمة المرور غير صحيحة';
             }
         });
     }
-
-    // التحقق من التسجيل قبل الدخول للوحة التحكم
-    const adminPages = ['admin.html', 'edit-product.html'];
-    if (adminPages.some(page => window.location.pathname.includes(page))) {
-        if (!localStorage.getItem('isAdminLoggedIn')) {
-            window.location.href = 'login.html';
-        }
+    
+    // إذا كان في صفحة المنتجات
+    if (window.location.pathname.includes('products.html')) {
+        displayProducts();
     }
 });
 
-// وظيفة تسجيل الخروج (تُستخدم في لوحة التحكم)
-function logout() {
-    localStorage.removeItem('isAdminLoggedIn');
-    window.location.href = 'login.html';
+// عرض المنتجات في صفحة المنتجات
+function displayProducts() {
+    const container = document.getElementById('productsContainer');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    products.forEach((product, index) => {
+        // التحقق من حالة نفاذ الكمية
+        if (product.isOutOfStock || product.quantity <= 0) {
+            const outOfStockCard = document.createElement('div');
+            outOfStockCard.className = 'product-card out-of-stock-card';
+            outOfStockCard.innerHTML = `
+                <img src="${product.image}" alt="${product.name}">
+                <h3>${product.name}</h3>
+                <div class="out-of-stock-badge">نفذت الكمية</div>
+                <p>${product.description}</p>
+                <p><strong>السعر: ${product.price} ر.س</strong></p>
+                <button class="btn btn-disabled" disabled>غير متوفر حالياً</button>
+            `;
+            container.appendChild(outOfStockCard);
+            return;
+        }
+        
+        const productCard = document.createElement('div');
+        productCard.className = 'product-card';
+        productCard.innerHTML = `
+            <img src="${product.image}" alt="${product.name}">
+            <h3>${product.name}</h3>
+            <p>${product.description}</p>
+            <p><strong>السعر: ${product.price} ر.س</strong></p>
+            <p>الكمية المتاحة: ${product.quantity}</p>
+            <button class="btn" onclick="showPaymentModal(${index})">طلب المنتج</button>
+        `;
+        container.appendChild(productCard);
+    });
+}
+
+// عرض نموذج الدفع
+function showPaymentModal(productIndex) {
+    const product = products[productIndex];
+    document.getElementById('productDetails').innerHTML = `
+        <h3>${product.name}</h3>
+        <p>السعر: ${product.price} ر.س</p>
+    `;
+    document.getElementById('paymentModal').style.display = 'block';
+    
+    // إخفاء معلومات الدفع حتى يتم اختيار طريقة
+    document.getElementById('paymentDetails').style.display = 'none';
+    document.querySelectorAll('.payment-info').forEach(el => {
+        el.style.display = 'none';
+    });
+}
+
+// إخفاء نموذج الدفع
+function hidePaymentModal() {
+    document.getElementById('paymentModal').style.display = 'none';
+}
+
+// اختيار طريقة الدفع
+function selectPayment(method) {
+    document.getElementById('paymentDetails').style.display = 'block';
+    document.querySelectorAll('.payment-info').forEach(el => {
+        el.style.display = 'none';
+    });
+    document.getElementById(`${method}Info`).style.display = 'block';
+}
+
+// إتمام عملية الدفع
+function completePayment() {
+    alert('شكرًا لك! تم استلام طلبك وسيتم التواصل معك قريبًا.');
+    hidePaymentModal();
 }
