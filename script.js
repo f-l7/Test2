@@ -4,7 +4,7 @@ let products = JSON.parse(localStorage.getItem('products')) || [];
 // بيانات تسجيل الدخول (يمكن تغييرها في الكود)
 const adminCredentials = {
     username: "admin",
-    password: "admin12"
+    password: "123456"
 };
 
 // التحقق من تسجيل الدخول عند تحميل الصفحة
@@ -40,7 +40,21 @@ function displayProducts() {
     container.innerHTML = '';
     
     products.forEach((product, index) => {
-        if (product.isOutOfStock) return;
+        // التحقق من حالة نفاذ الكمية
+        if (product.isOutOfStock || product.quantity <= 0) {
+            const outOfStockCard = document.createElement('div');
+            outOfStockCard.className = 'product-card out-of-stock-card';
+            outOfStockCard.innerHTML = `
+                <img src="${product.image}" alt="${product.name}">
+                <h3>${product.name}</h3>
+                <div class="out-of-stock-badge">نفذت الكمية</div>
+                <p>${product.description}</p>
+                <p><strong>السعر: ${product.price} ر.س</strong></p>
+                <button class="btn btn-disabled" disabled>غير متوفر حالياً</button>
+            `;
+            container.appendChild(outOfStockCard);
+            return;
+        }
         
         const productCard = document.createElement('div');
         productCard.className = 'product-card';
@@ -49,6 +63,7 @@ function displayProducts() {
             <h3>${product.name}</h3>
             <p>${product.description}</p>
             <p><strong>السعر: ${product.price} ر.س</strong></p>
+            <p>الكمية المتاحة: ${product.quantity}</p>
             <button class="btn" onclick="showPaymentModal(${index})">طلب المنتج</button>
         `;
         container.appendChild(productCard);
